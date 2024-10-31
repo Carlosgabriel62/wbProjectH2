@@ -5,9 +5,8 @@ export function Cadastro() {
   const [formData, setFormData] = useState({
     email: "",
     senha: "",
-    nome: "", // Adicione o campo nome aqui
-});
-
+    nome: "",
+  });
 
   const handleChange = (event) => {
     setFormData({
@@ -15,17 +14,18 @@ export function Cadastro() {
       [event.target.name]: event.target.value,
     });
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     
     const usuario = {
       email: formData.email,
       senha: formData.senha,
-      nome: formData.nome, // Certifique-se de que este campo existe no formulário
+      nome: formData.nome,
     };
 
     try {
-      const response = await fetch('https://spidery-fishsticks-4j649wvv79hwwq-8080.app.github.dev/api/usuarios', {
+      const response = await fetch('/api/usuarios', {  // URL relativa
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,8 +42,7 @@ export function Cadastro() {
     } catch (error) {
       console.error('Erro na requisição:', error);
     }
-};
-
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -68,7 +67,7 @@ export function Cadastro() {
       <label>
         Nome:
         <input
-          type="name"
+          type="text"
           name="nome"
           value={formData.nome}
           onChange={handleChange}
