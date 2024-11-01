@@ -15,6 +15,7 @@ public class UsuarioController {
 
     @PostMapping("/usuarios")
     public Usuario createUsuario(@RequestBody Usuario usuario) {
+        
         manager.adicionarUsuario(usuario);
         return usuario;
     }

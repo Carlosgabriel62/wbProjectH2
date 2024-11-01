@@ -21,8 +21,6 @@ public class DemoApplication {
         Usuario user = new Usuario(0, "Carlos", "bertunesgabriel6", "bertunes");
         usuarioManager.adicionarUsuario(user);
         System.out.println("Usuário adicionado: " + user.getNome());
-
-        // Imprime todos os usuários para verificar o armazenamento inicial
         List<Usuario> usuarios = usuarioManager.listarUsuarios();
         usuarios.forEach(u -> System.out.println("Usuário na tabela: " + u.getNome() + ", Email: " + u.getEmail()));
     }
