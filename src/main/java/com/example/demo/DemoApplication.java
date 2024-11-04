@@ -10,7 +10,7 @@ import java.util.List;
 public class DemoApplication {
 
     @Autowired
-    private UsuarioManager usuarioManager;
+    private InstituicaoManager usuarioManager;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -18,10 +18,10 @@ public class DemoApplication {
 
     @PostConstruct
     public void addInitialUser() {
-        Usuario user = new Usuario(0, "Carlos", "bertunesgabriel6", "bertunes");
-        usuarioManager.adicionarUsuario(user);
+        Instituicao user = new Instituicao(0, "Carlos", "bertunesgabriel6@gmail.com", "bertunes");
+        usuarioManager.adicionarInstituicao(user);
         System.out.println("Usuário adicionado: " + user.getNome());
-        List<Usuario> usuarios = usuarioManager.listarUsuarios();
+        List<Instituicao> usuarios = usuarioManager.listarInstituicaos();
         usuarios.forEach(u -> System.out.println("Usuário na tabela: " + u.getNome() + ", Email: " + u.getEmail()));
     }
 }
