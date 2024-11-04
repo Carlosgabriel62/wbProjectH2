@@ -17,7 +17,7 @@ export function Cadastro() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     const usuario = {
       email: formData.email,
       senha: formData.senha,
@@ -25,22 +25,22 @@ export function Cadastro() {
     };
 
     try {
-      const response = await fetch('/api/usuarios', {  // URL relativa
-        method: 'POST',
+      const response = await fetch("/api/usuarios", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(usuario),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Usuário criado:', data);
+        console.log("Usuário criado:", data);
       } else {
-        console.error('Erro ao criar usuário:', response.statusText);
+        console.error("Erro ao criar usuário:", response.statusText);
       }
     } catch (error) {
-      console.error('Erro na requisição:', error);
+      console.error("Erro na requisição:", error);
     }
   };
 
