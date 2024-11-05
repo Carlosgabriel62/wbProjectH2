@@ -25,6 +25,7 @@ public ResponseEntity<String> createUsuario(@RequestBody Instituicao instituicao
     }
 }
 
+
     @GetMapping("/users")
     public List<Instituicao> listar(){
         return manager.listarInstituicaos();

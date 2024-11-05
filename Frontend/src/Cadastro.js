@@ -1,31 +1,79 @@
-const handleSubmit = async (event) => {
-  event.preventDefault();
+import React, { useState } from "react";
+import "./cadastro.css";
 
-  const usuario = {
+export function Cadastro() {
+  const [formData, setFormData] = useState({
+    email: "",
+    senha: "",
+    nome: "",
+  });
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const usuario = {
       email: formData.email,
       senha: formData.senha,
       nome: formData.nome,
-  };
+    };
 
-  try {
+    try {
       const response = await fetch("/api/usuarios", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(usuario),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(usuario),
       });
 
       if (response.ok) {
-          const message = await response.text(); // Captura a mensagem de texto
-          console.log("Usuário criado:", message);
-          alert(message); // Exibe a mensagem para o usuário
+        const data = await response.json();
+        console.log("Usuário criado:", data);
       } else {
-          const errorMessage = await response.text(); // Captura a mensagem de erro
-          console.error("Erro ao criar usuário:", errorMessage);
-          alert(errorMessage); // Exibe a mensagem de erro para o usuário
+        console.error("Erro ao criar usuário:", response.statusText);
       }
-  } catch (error) {
+    } catch (error) {
       console.error("Erro na requisição:", error);
-  }
-};
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Email:
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Senha:
+        <input
+          type="password"
+          name="senha"
+          value={formData.senha}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Nome:
+        <input
+          type="text"
+          name="nome"
+          value={formData.nome}
+          onChange={handleChange}
+        />
+      </label>
+      <button type="submit">Cadastrar</button>
+    </form>
+  );
+}

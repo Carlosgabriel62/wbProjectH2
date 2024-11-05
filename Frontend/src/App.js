@@ -1,14 +1,22 @@
+
 import React, { useState } from "react";
 import "./styles.css";
 import { Cadastro } from "./Cadastro";
 import { Login } from "./Login";
+import { Gerenciador } from "./Gerenciador";
 
 export default function App() {
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
   const [mostrarLogin, setMostrarLogin] = useState(false);
+  const [mostrarGerenciador, setMostrarGerenciador] = useState(false);
 
   const handleCadastroClick = () => {
     setMostrarCadastro(true);
+    setMostrarLogin(false);
+  };
+
+  const handleCadastroClick2 = () => {
+    setMostrarGerenciador(true);
     setMostrarLogin(false);
   };
 
@@ -35,6 +43,7 @@ export default function App() {
         <nav>
           <button onClick={handleLoginClick}>Área do Doador</button>
           <button onClick={handleCadastroClick}>Faça seu cadastro</button>
+          <button onClick={handleCadastroClick2}>Gerencie seus projetos</button>
         </nav>
       </header>
       <main className="main-content">
@@ -53,6 +62,7 @@ export default function App() {
         )}
         {mostrarCadastro && <Cadastro />}
         {mostrarLogin && <Login />}
+        {mostrarGerenciador && <Gerenciador />}
       </main>
     </div>
   );
