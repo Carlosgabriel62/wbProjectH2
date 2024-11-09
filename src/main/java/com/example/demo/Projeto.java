@@ -6,17 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Entity
-@Table(name = "publicacoes")
+@Table(name = "projetos")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Publicacao{
+public class Projeto{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private string titulo;
+    private string projeto;
     private string descricao;
-    private int valor_dado;
+    private string cnpjcpf;
 
 
 }
