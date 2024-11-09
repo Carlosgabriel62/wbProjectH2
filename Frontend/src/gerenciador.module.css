@@ -1,0 +1,127 @@
+/* Container principal */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #42c558;
+  }
+  
+  /* Título principal */
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Botões principais */
+  .criarButton {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .criarButton:hover {
+    background-color: #218838;
+  }
+  
+  /* Contêiner do formulário */
+  .formContainer {
+    width: 100%;
+    max-width: 500px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* Estilo dos labels */
+  .label {
+    display: block;
+    font-size: 14px;
+    color: #2daf33;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: left;
+  }
+  
+  /* Estilo dos campos de input e textarea */
+  .input, .textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  /* Botão de envio */
+  .submitButton {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .submitButton:hover {
+    background-color: #218838;
+  }
+  
+  /* Estilo dos itens do projeto */
+  .projetoItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .projetoItem span {
+    font-size: 16px;
+  }
+  
+  /* Botão de excluir nos itens */
+  .deleteButton {
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c82333;
+  }
