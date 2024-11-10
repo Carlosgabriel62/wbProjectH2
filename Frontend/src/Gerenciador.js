@@ -1,36 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./gerenciador.module.css"; 
 
 export function Gerenciador() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mostrarExcluir, setMostrarExcluir] = useState(false);
   const [mostrarAcompanhar, setMostrarAcompanhar] = useState(false);
-  const [projetos, setProjetos] = useState([]); // Aqui você guardaria os projetos (exemplo simulado)
+  const [projetos, setProjetos] = useState([]);
+  const [novoProjeto, setNovoProjeto] = useState({ nome: "", motivo: "", cnpjCpf: "" });
 
   const handleCriarProjetoClick = () => {
     setMostrarFormulario(true);
+    setMostrarExcluir(false);
+    setMostrarAcompanhar(false);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setNovoProjeto((prevProjeto) => ({
+      ...prevProjeto,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('/api/projetos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(novoProjeto),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Projeto criado:", data);
+        setProjetos((prevProjetos) => [...prevProjetos, data]);
+      } else {
+        console.error("Erro ao criar projeto:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   };
 
   const handleExcluirProjetoClick = () => {
     setMostrarExcluir(true);
-    // Simulando a obtenção de projetos da API
-    setProjetos([
-      { id: 1, nome: "Projeto A" },
-      { id: 2, nome: "Projeto B" },
-    ]);
+    setMostrarFormulario(false);
+    setMostrarAcompanhar(false);
+    fetchProjetos();
   };
 
-  const handleAcompanharProjetosClick = () => {
+  const handleAcompanharProjetosClick = async () => {
     setMostrarAcompanhar(true);
-    // Simulando a obtenção de projetos com status da API
-    setProjetos([
-      { id: 1, nome: "Projeto A", status: "Em andamento" },
-      { id: 2, nome: "Projeto B", status: "Concluído" },
-    ]);
+    setMostrarFormulario(false);
+    setMostrarExcluir(false);
+
+    // Buscar os projetos da API
+    try {
+      const response = await fetch('/api/projetos');
+      if (response.ok) {
+        const data = await response.json();
+        setProjetos(data);
+      } else {
+        console.error("Erro ao buscar projetos:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   };
 
   const handleExcluirProjeto = (id) => {
-    // Aqui você faria a chamada para a API para excluir o projeto
     setProjetos(projetos.filter((projeto) => projeto.id !== id));
   };
 
@@ -53,18 +94,38 @@ export function Gerenciador() {
       )}
 
       {mostrarFormulario && (
-        <div className={styles.formContainer}>
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
           <label className={styles.label}>Nome do Projeto</label>
-          <input type="text" className={styles.input} placeholder="Digite o nome do projeto" />
+          <input
+            type="text"
+            name="nome"
+            value={novoProjeto.nome}
+            onChange={handleChange}
+            className={styles.input}
+            placeholder="Digite o nome do projeto"
+          />
 
           <label className={styles.label}>Motivo para a Doação</label>
-          <textarea className={styles.textarea} placeholder="Descreva o motivo para a doação"></textarea>
+          <textarea
+            name="motivo"
+            value={novoProjeto.motivo}
+            onChange={handleChange}
+            className={styles.textarea}
+            placeholder="Descreva o motivo para a doação"
+          ></textarea>
 
           <label className={styles.label}>CNPJ/CPF</label>
-          <input type="text" className={styles.input} placeholder="Digite o CNPJ ou CPF" />
+          <input
+            type="text"
+            name="cnpjCpf"
+            value={novoProjeto.cnpjCpf}
+            onChange={handleChange}
+            className={styles.input}
+            placeholder="Digite o CNPJ ou CPF"
+          />
 
-          <button className={styles.submitButton}>Enviar Projeto de Doação</button>
-        </div>
+          <button type="submit" className={styles.submitButton}>Enviar Projeto de Doação</button>
+        </form>
       )}
 
       {mostrarExcluir && (
@@ -84,7 +145,9 @@ export function Gerenciador() {
           <h2>Acompanhe o status dos seus projetos</h2>
           {projetos.map((projeto) => (
             <div key={projeto.id} className={styles.projetoItem}>
-              <span>{projeto.nome} - {projeto.status}</span>
+              <span><strong>Nome:</strong> {projeto.nome}</span>
+              <span><strong>Motivo:</strong> {projeto.motivo}</span>
+              <span><strong>CNPJ/CPF:</strong> {projeto.cnpjCpf}</span>
             </div>
           ))}
         </div>
