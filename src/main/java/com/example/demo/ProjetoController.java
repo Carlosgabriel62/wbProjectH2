@@ -26,9 +26,19 @@ public ResponseEntity<String> createProjeto(@RequestBody Projeto projeto) {
 }
 
 
-    @GetMapping("/projetos")
+    @GetMapping("/projects")
     public List<Projeto> listarProjeto(){
         return manager.listarProjetos();
     }
     
+
+    @PutMapping("/projetos/{id}/encerrar")
+    public ResponseEntity<String> encerrarProjeto(@PathVariable int id) {
+        try {
+            manager.encerrarProjeto(id);
+            return ResponseEntity.ok("Projeto encerrado com sucesso");
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Projeto não encontrado");
+        }
+    }
 }

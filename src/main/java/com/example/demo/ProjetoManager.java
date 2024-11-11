@@ -23,4 +23,15 @@ public class ProjetoManager {
         return projetoRepository.findAll();
     }
 
+    public void encerrarProjeto(int id) {
+        Optional<Projeto> projetoOpt = projetoRepository.findById(id);
+        if (projetoOpt.isPresent()) {
+            Projeto projeto = projetoOpt.get();
+            projeto.setStatus("ENCERRADO");  // Atualizando o status
+            projetoRepository.save(projeto);  // Salvando o projeto com o novo status
+        } else {
+            throw new RuntimeException("Projeto não encontrado");
+        }
+    }
+
 }
