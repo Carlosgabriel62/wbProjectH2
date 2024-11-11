@@ -5,8 +5,8 @@ export function Login() {
   const [formData, setFormData] = useState({
     email: "",
     senha: "",
-    nome: "",
   });
+  const [mensagem, setMensagem] = useState(""); // Para exibir a mensagem de sucesso ou erro
 
   const handleChange = (event) => {
     setFormData({
@@ -17,57 +17,56 @@ export function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const usuario = {
-      email: formData.email,
-      senha: formData.senha,
-      nome: formData.nome, // Adicione um campo para o nome se necessário
-    };
-  
+
     try {
-      const response = await fetch('https://spidery-fishsticks-4j649wvv79hwwq-8080.app.github.dev/api/usuarios', {
-        method: 'POST',
+      // Fazendo a requisição para o login usando POST
+      const response = await fetch("/api/usuarios/login", {
+        method: "POST", // Usando POST para segurança
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify(formData), // Enviando o corpo com email e senha
       });
-  
+
       if (response.ok) {
         const data = await response.json();
-        console.log('Usuário criado:', data);
+        setMensagem(data); // Exibe a mensagem retornada pela API
       } else {
-        console.error('Erro ao criar usuário:', response.statusText);
+        setMensagem("Login incorreto: usuário ou senha inválidos");
       }
     } catch (error) {
-      console.error('Erro na requisição:', error);
+      setMensagem("Erro na requisição: " + error.message);
     }
   };
-  
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Senha:
-        <input
-          type="password"
-          name="senha"
-          value={formData.senha}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Email:
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Senha:
+          <input
+            type="password"
+            name="senha"
+            value={formData.senha}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <button type="submit">Login</button>
+      </form>
+
+      {/* Exibindo a mensagem de sucesso ou erro */}
+      <div>{mensagem}</div>
+    </div>
   );
 }

@@ -22,7 +22,7 @@ public class InstituicaoManager {
         return instituicaoRepository.findAll();
     }
 
-    public Optional<Instituicao> autenticar(String email, String senha) {
-        return instituicaoRepository.findByEmailAndSenha(email, senha); // Usando o método correto
+    public Optional<Instituicao> getUsuarioByEmailAndSenha(String email, String senha) {
+        return instituicaoRepository.findByEmailAndSenha(email, senha); // Método que busca o usuário com o email e senha
     }
 }
