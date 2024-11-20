@@ -4,6 +4,8 @@ import "./styles.css";
 import { Cadastro } from "./Cadastro";
 import { Login } from "./Login";
 import { Gerenciador } from "./Gerenciador";
+import { PrivateRoute } from "./PrivateRoute";
+import { Projetos } from "./Projetos";  // Importando a nova página Projetos
 
 export default function App() {
   return (
@@ -27,6 +29,9 @@ export default function App() {
             <Link to="/gerenciador">
               <button>Gerencie seus projetos</button>
             </Link>
+            <Link to="/projetos">
+              <button>Conheça os Projetos</button> {/* Adicionando o botão de navegação para projetos */}
+            </Link>
           </nav>
         </header>
 
@@ -44,13 +49,23 @@ export default function App() {
                     apoiar projetos de educação, saúde e muito mais. Participe dessa
                     corrente do bem e ajude a transformar vidas.
                   </p>
-                  <button className="cta-button">Doe agora e seja parte da mudança!</button>
+                  <Link to="/projetos">
+                    <button className="cta-button">Doe agora e seja parte da mudança!</button> {/* Alterado para Link */}
+                  </Link>
                 </div>
               }
             />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/gerenciador" element={<Gerenciador />} />
+            <Route
+              path="/gerenciador"
+              element={
+                <PrivateRoute>
+                  <Gerenciador />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/projetos" element={<Projetos />} /> {/* Nova rota para Projetos */}
           </Routes>
         </main>
       </div>

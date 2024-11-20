@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
 
 export function Login() {
@@ -6,7 +7,8 @@ export function Login() {
     email: "",
     senha: "",
   });
-  const [mensagem, setMensagem] = useState(""); // Para exibir a mensagem de sucesso ou erro
+  const [mensagem, setMensagem] = useState(""); // Para exibir a mensagem de erro
+  const navigate = useNavigate(); // Hook para redirecionar
 
   const handleChange = (event) => {
     setFormData({
@@ -19,23 +21,25 @@ export function Login() {
     event.preventDefault();
 
     try {
-      // Fazendo a requisição para o login usando POST
       const response = await fetch("/api/usuarios/login", {
-        method: "POST", // Usando POST para segurança
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Enviando o corpo com email e senha
+        body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
-        setMensagem(data); // Exibe a mensagem retornada pela API
+        localStorage.setItem("authToken", data.token); // Salva o token
+        setMensagem(data.message);
+        navigate("/gerenciador"); // Redireciona para gerenciador após login bem-sucedido
       } else {
-        setMensagem("Login incorreto: usuário ou senha inválidos");
+        setMensagem(data.message); // Exibe a mensagem de erro
       }
     } catch (error) {
-      setMensagem("Erro na requisição: " + error.message);
+      setMensagem("Erro na requisição: " + error.message); // Erro de rede
     }
   };
 

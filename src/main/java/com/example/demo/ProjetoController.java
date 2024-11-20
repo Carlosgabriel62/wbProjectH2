@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,14 @@ public ResponseEntity<String> createProjeto(@RequestBody Projeto projeto) {
     }
 }
 
+
+    @GetMapping("/projetos/andamento")
+    public List<Projeto> listarProjetosEmAndamento() {
+        List<Projeto> todosProjetos = manager.listarProjetos();
+        return todosProjetos.stream()
+                            .filter(projeto -> "EM ANDAMENTO".equals(projeto.getStatus()))
+                            .collect(Collectors.toList());
+    }
 
     @GetMapping("/projects")
     public List<Projeto> listarProjeto(){

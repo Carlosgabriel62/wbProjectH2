@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/api")
 public class InstituicaoController {
@@ -35,19 +37,17 @@ public class InstituicaoController {
     }
 
     @PostMapping("/usuarios/login")
-    public ResponseEntity<String> loginUsuario(@RequestBody LoginRequest loginRequest) {
-        try {
-            Optional<Instituicao> usuario = manager.getUsuarioByEmailAndSenha(loginRequest.getEmail(), loginRequest.getSenha());
-            if (usuario.isPresent()) {
-                // Usuário encontrado, retorno com a mensagem de sucesso
-                return ResponseEntity.ok("Login com sucesso!"); // Caso o usuário seja encontrado
-            } else {
-                // Caso não encontre o usuário
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login incorreto: usuário ou senha inválidos");
-            }
-        } catch (Exception ex) {
-            // Em caso de erro interno do servidor
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro no servidor: " + ex.getMessage());
+    public ResponseEntity<Map<String, String>> loginUsuario(@RequestBody LoginRequest loginRequest) {
+        Optional<Instituicao> usuario = manager.getUsuarioByEmailAndSenha(loginRequest.getEmail(), loginRequest.getSenha());
+        Map<String, String> response = new HashMap<>();
+        if (usuario.isPresent()) {
+            String token = "TOKEN_GENERADO_AQUI"; // Substitua pela geração real de um token
+            response.put("message", "Login com sucesso!");
+            response.put("token", token);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Usuário ou senha inválidos.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
