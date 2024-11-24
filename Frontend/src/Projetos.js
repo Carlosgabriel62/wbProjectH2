@@ -4,7 +4,7 @@ export function Projetos() {
   const [projetos, setProjetos] = useState([]);
 
   useEffect(() => {
-    // Requisição para buscar projetos com status "EM ANDAMENTO"
+
     const fetchProjetos = async () => {
       try {
         const response = await fetch("/api/projetos/andamento");

@@ -20,9 +20,9 @@ public class ProjetoController {
 public ResponseEntity<String> createProjeto(@RequestBody Projeto projeto) {
     try {
         manager.adicionarProjeto(projeto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Adicionado"); // Retorna 201 com a mensagem
+        return ResponseEntity.status(HttpStatus.CREATED).body("Adicionado");
     } catch (Exception ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Projeto já cadastrado"); // Retorna 409 com a mensagem
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Projeto já cadastrado"); 
     }
 }
 

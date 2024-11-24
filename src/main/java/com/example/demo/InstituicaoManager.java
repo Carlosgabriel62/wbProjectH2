@@ -23,6 +23,6 @@ public class InstituicaoManager {
     }
 
     public Optional<Instituicao> getUsuarioByEmailAndSenha(String email, String senha) {
-        return instituicaoRepository.findByEmailAndSenha(email, senha); // Método que busca o usuário com o email e senha
+        return instituicaoRepository.findByEmailAndSenha(email, senha); 
     }
 }

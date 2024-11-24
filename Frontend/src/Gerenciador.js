@@ -11,17 +11,16 @@ export function Gerenciador() {
     motivo: "",
     cnpjCpf: "",
   });
-  const [mostrarBotaoVoltar, setMostrarBotaoVoltar] = useState(false); // Novo estado
+  const [mostrarBotaoVoltar, setMostrarBotaoVoltar] = useState(false); 
 
-  // Função para criar um novo projeto
   const handleCriarProjetoClick = () => {
     setMostrarFormulario(true);
     setMostrarExcluir(false);
     setMostrarAcompanhar(false);
-    setMostrarBotaoVoltar(true); // Exibe o botão Voltar
+    setMostrarBotaoVoltar(true); 
   };
 
-  // Função para controlar a mudança nos campos do formulário
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setNovoProjeto((prevProjeto) => ({
@@ -30,7 +29,7 @@ export function Gerenciador() {
     }));
   };
 
-  // Função para enviar o novo projeto à API
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -54,18 +53,17 @@ export function Gerenciador() {
     }
   };
 
-  // Função para exibir a lista de projetos para o encerramento
+
   const handleExcluirProjetoClick = () => {
     setMostrarExcluir(true);
     setMostrarFormulario(false);
     setMostrarAcompanhar(false);
-    setMostrarBotaoVoltar(true); // Exibe o botão Voltar
+    setMostrarBotaoVoltar(true); 
 
-    // Buscar os projetos da API para a exclusão
+
     handleAcompanharProjetosClick("excluir");
   };
 
-  // Função para exibir a lista de projetos para acompanhamento ou encerramento
   const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
     if (tipo === "excluir") {
       setMostrarAcompanhar(false);
@@ -75,14 +73,13 @@ export function Gerenciador() {
       setMostrarAcompanhar(true);
     }
     setMostrarFormulario(false);
-    setMostrarBotaoVoltar(true); // Exibe o botão Voltar
+    setMostrarBotaoVoltar(true); 
   
-    // Buscar os projetos da API e filtrar os com status "EM ANDAMENTO"
+ 
     try {
       const response = await fetch("/api/projects");
       if (response.ok) {
         const data = await response.json();
-        // Filtrando os projetos com status "EM ANDAMENTO"
         const projetosEmAndamento = data.filter((projeto) => projeto.status === "EM ANDAMENTO");
         setProjetos(projetosEmAndamento);
       } else {
@@ -93,7 +90,7 @@ export function Gerenciador() {
     }
   };
 
-  // Função para encerrar o projeto
+
   const handleEncerrarProjeto = async (id) => {
     try {
         const response = await fetch(`/api/projetos/${id}/encerrar`, {
@@ -118,12 +115,12 @@ export function Gerenciador() {
     }
   };
 
-  // Função para voltar ao gerenciador
+
   const handleVoltar = () => {
     setMostrarFormulario(false);
     setMostrarExcluir(false);
     setMostrarAcompanhar(false);
-    setMostrarBotaoVoltar(false); // Esconde o botão Voltar
+    setMostrarBotaoVoltar(false);
   };
 
   return (

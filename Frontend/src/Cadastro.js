@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate para redirecionamento
+import { useNavigate } from "react-router-dom";
 import "./cadastro.css";
 
 export function Cadastro() {
@@ -9,7 +9,7 @@ export function Cadastro() {
     nome: "",
   });
 
-  const navigate = useNavigate(); // Hook para navegação
+  const navigate = useNavigate(); 
 
   const handleChange = (event) => {
     setFormData({
@@ -40,14 +40,13 @@ export function Cadastro() {
         const data = await response.json();
         console.log("Usuário criado:", data);
 
-        // Supondo que o backend retorna um token após o cadastro
-        const token = data.token; // Altere se o token estiver em outro formato ou estrutura
+        
+        const token = data.token; 
         if (token) {
-          // Salvar o token no localStorage
           localStorage.setItem("authToken", token);
 
-          // Redirecionar para a página do Gerenciador
-          navigate("/gerenciador"); // Substitua pelo caminho correto para o Gerenciador
+        
+          navigate("/gerenciador");
         }
       } else {
         console.error("Erro ao criar usuário:", response.statusText);

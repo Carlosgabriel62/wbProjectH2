@@ -5,7 +5,7 @@ import { Cadastro } from "./Cadastro";
 import { Login } from "./Login";
 import { Gerenciador } from "./Gerenciador";
 import { PrivateRoute } from "./PrivateRoute";
-import { Projetos } from "./Projetos";  // Importando a nova página Projetos
+import { Projetos } from "./Projetos";  
 
 export default function App() {
   return (

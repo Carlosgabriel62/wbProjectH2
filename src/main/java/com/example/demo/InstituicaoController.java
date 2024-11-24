@@ -19,20 +19,18 @@ public class InstituicaoController {
         this.manager = manager;
     }
 
-    // Método para criação de usuário
+
     @PostMapping("/usuarios")
     public ResponseEntity<?> createUsuario(@RequestBody Instituicao instituicao) {
         try {
             manager.adicionarInstituicao(instituicao);
-            // Gerar um token (simulação, substitua pela lógica real de geração de token)
-            String token = "fakeToken123"; // Altere para a geração real de token
+            String token = "fakeToken123"; 
             return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponse(token));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: Usuário já cadastrado");
         }
     }
 
-    // Método para listar todos os usuários
     @GetMapping("/users")
     public List<Instituicao> listar() {
         return manager.listarInstituicaos();
@@ -43,7 +41,7 @@ public class InstituicaoController {
         Optional<Instituicao> usuario = manager.getUsuarioByEmailAndSenha(loginRequest.getEmail(), loginRequest.getSenha());
         Map<String, String> response = new HashMap<>();
         if (usuario.isPresent()) {
-            String token = "TOKEN_GENERADO_AQUI"; // Substitua pela geração real de um token
+            String token = "TOKEN_GENERADO_AQUI"; 
             response.put("message", "Login com sucesso!");
             response.put("token", token);
             return ResponseEntity.ok(response);

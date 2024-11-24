@@ -7,8 +7,8 @@ export function Login() {
     email: "",
     senha: "",
   });
-  const [mensagem, setMensagem] = useState(""); // Para exibir a mensagem de erro
-  const navigate = useNavigate(); // Hook para redirecionar
+  const [mensagem, setMensagem] = useState(""); 
+  const navigate = useNavigate(); 
 
   const handleChange = (event) => {
     setFormData({
@@ -32,14 +32,14 @@ export function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("authToken", data.token); // Salva o token
+        localStorage.setItem("authToken", data.token);
         setMensagem(data.message);
-        navigate("/gerenciador"); // Redireciona para gerenciador após login bem-sucedido
+        navigate("/gerenciador");
       } else {
-        setMensagem(data.message); // Exibe a mensagem de erro
+        setMensagem(data.message); 
       }
     } catch (error) {
-      setMensagem("Erro na requisição: " + error.message); // Erro de rede
+      setMensagem("Erro na requisição: " + error.message); 
     }
   };
 

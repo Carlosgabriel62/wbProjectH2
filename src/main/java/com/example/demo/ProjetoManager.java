@@ -27,8 +27,8 @@ public class ProjetoManager {
         Optional<Projeto> projetoOpt = projetoRepository.findById(id);
         if (projetoOpt.isPresent()) {
             Projeto projeto = projetoOpt.get();
-            projeto.setStatus("ENCERRADO");  // Atualizando o status
-            projetoRepository.save(projeto);  // Salvando o projeto com o novo status
+            projeto.setStatus("ENCERRADO");  
+            projetoRepository.save(projeto);  
         } else {
             throw new RuntimeException("Projeto não encontrado");
         }

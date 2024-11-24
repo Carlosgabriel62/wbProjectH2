@@ -30,5 +30,5 @@ public class Projeto {
     private String cnpjCpf;
 
     @Column(name = "status", nullable = false)
-    private String status = "EM ANDAMENTO";  // Valor padrão
+    private String status = "EM ANDAMENTO"; 
 }
