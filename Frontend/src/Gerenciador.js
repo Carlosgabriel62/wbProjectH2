@@ -11,12 +11,14 @@ export function Gerenciador() {
     motivo: "",
     cnpjCpf: "",
   });
+  const [mostrarBotaoVoltar, setMostrarBotaoVoltar] = useState(false); // Novo estado
 
   // Função para criar um novo projeto
   const handleCriarProjetoClick = () => {
     setMostrarFormulario(true);
     setMostrarExcluir(false);
     setMostrarAcompanhar(false);
+    setMostrarBotaoVoltar(true); // Exibe o botão Voltar
   };
 
   // Função para controlar a mudança nos campos do formulário
@@ -57,14 +59,14 @@ export function Gerenciador() {
     setMostrarExcluir(true);
     setMostrarFormulario(false);
     setMostrarAcompanhar(false);
+    setMostrarBotaoVoltar(true); // Exibe o botão Voltar
 
     // Buscar os projetos da API para a exclusão
     handleAcompanharProjetosClick("excluir");
   };
 
   // Função para exibir a lista de projetos para acompanhamento ou encerramento
- // Função para exibir a lista de projetos para acompanhamento ou encerramento
-const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
+  const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
     if (tipo === "excluir") {
       setMostrarAcompanhar(false);
       setMostrarExcluir(true);
@@ -73,6 +75,7 @@ const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
       setMostrarAcompanhar(true);
     }
     setMostrarFormulario(false);
+    setMostrarBotaoVoltar(true); // Exibe o botão Voltar
   
     // Buscar os projetos da API e filtrar os com status "EM ANDAMENTO"
     try {
@@ -89,7 +92,6 @@ const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
       console.error("Erro na requisição:", error);
     }
   };
-  
 
   // Função para encerrar o projeto
   const handleEncerrarProjeto = async (id) => {
@@ -114,6 +116,14 @@ const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
     } catch (error) {
       console.error("Erro ao encerrar o projeto:", error);
     }
+  };
+
+  // Função para voltar ao gerenciador
+  const handleVoltar = () => {
+    setMostrarFormulario(false);
+    setMostrarExcluir(false);
+    setMostrarAcompanhar(false);
+    setMostrarBotaoVoltar(false); // Esconde o botão Voltar
   };
 
   return (
@@ -181,6 +191,13 @@ const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
             ))}
           </ul>
         </div>
+      )}
+
+      {/* Botão Voltar */}
+      {mostrarBotaoVoltar && (
+        <button onClick={handleVoltar} className={styles.voltarButton}>
+          Voltar
+        </button>
       )}
     </div>
   );

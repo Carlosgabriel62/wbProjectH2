@@ -21,10 +21,12 @@ public class InstituicaoController {
 
     // Método para criação de usuário
     @PostMapping("/usuarios")
-    public ResponseEntity<String> createUsuario(@RequestBody Instituicao instituicao) {
+    public ResponseEntity<?> createUsuario(@RequestBody Instituicao instituicao) {
         try {
             manager.adicionarInstituicao(instituicao);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado com sucesso");
+            // Gerar um token (simulação, substitua pela lógica real de geração de token)
+            String token = "fakeToken123"; // Altere para a geração real de token
+            return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponse(token));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: Usuário já cadastrado");
         }
