@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./gerenciador.module.css";
 
 export function Gerenciador() {
@@ -11,15 +11,14 @@ export function Gerenciador() {
     motivo: "",
     cnpjCpf: "",
   });
-  const [mostrarBotaoVoltar, setMostrarBotaoVoltar] = useState(false); 
+  const [mostrarBotaoVoltar, setMostrarBotaoVoltar] = useState(false);
 
   const handleCriarProjetoClick = () => {
     setMostrarFormulario(true);
     setMostrarExcluir(false);
     setMostrarAcompanhar(false);
-    setMostrarBotaoVoltar(true); 
+    setMostrarBotaoVoltar(true);
   };
-
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -28,7 +27,6 @@ export function Gerenciador() {
       [name]: value,
     }));
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -43,7 +41,6 @@ export function Gerenciador() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Projeto criado:", data);
         setProjetos((prevProjetos) => [...prevProjetos, data]);
       } else {
         console.error("Erro ao criar projeto:", response.statusText);
@@ -53,35 +50,25 @@ export function Gerenciador() {
     }
   };
 
-
   const handleExcluirProjetoClick = () => {
     setMostrarExcluir(true);
     setMostrarFormulario(false);
     setMostrarAcompanhar(false);
-    setMostrarBotaoVoltar(true); 
-
-
-    handleAcompanharProjetosClick("excluir");
+    setMostrarBotaoVoltar(true);
+    handleAcompanharProjetosClick();
   };
 
-  const handleAcompanharProjetosClick = async (tipo = "acompanhar") => {
-    if (tipo === "excluir") {
-      setMostrarAcompanhar(false);
-      setMostrarExcluir(true);
-    } else {
-      setMostrarExcluir(false);
-      setMostrarAcompanhar(true);
-    }
+  const handleAcompanharProjetosClick = async () => {
+    setMostrarAcompanhar(true);
     setMostrarFormulario(false);
-    setMostrarBotaoVoltar(true); 
-  
- 
+    setMostrarExcluir(false);
+    setMostrarBotaoVoltar(true);
+
     try {
       const response = await fetch("/api/projects");
       if (response.ok) {
         const data = await response.json();
-        const projetosEmAndamento = data.filter((projeto) => projeto.status === "EM ANDAMENTO");
-        setProjetos(projetosEmAndamento);
+        setProjetos(data);
       } else {
         console.error("Erro ao buscar projetos:", response.statusText);
       }
@@ -90,11 +77,9 @@ export function Gerenciador() {
     }
   };
 
-
   const handleEncerrarProjeto = async (id) => {
     try {
-        const response = await fetch(`/api/projetos/${id}/encerrar`, {
-
+      const response = await fetch(`/api/projetos/${id}/encerrar`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +91,6 @@ export function Gerenciador() {
           projeto.id === id ? { ...projeto, status: "ENCERRADO" } : projeto
         );
         setProjetos(updatedProjetos);
-        console.log("Projeto encerrado com sucesso");
       } else {
         console.error("Erro ao encerrar o projeto");
       }
@@ -114,7 +98,6 @@ export function Gerenciador() {
       console.error("Erro ao encerrar o projeto:", error);
     }
   };
-
 
   const handleVoltar = () => {
     setMostrarFormulario(false);
@@ -127,7 +110,6 @@ export function Gerenciador() {
     <div className={styles.container}>
       <h1 className={styles.title}>Aqui você pode gerenciar todos os seus projetos</h1>
 
-      {/* Botões de Navegação */}
       {!mostrarFormulario && !mostrarExcluir && !mostrarAcompanhar && (
         <>
           <button onClick={handleCriarProjetoClick} className={styles.criarButton}>
@@ -136,13 +118,12 @@ export function Gerenciador() {
           <button onClick={handleExcluirProjetoClick} className={styles.criarButton}>
             Encerrar um projeto
           </button>
-          <button onClick={() => handleAcompanharProjetosClick()} className={styles.criarButton}>
+          <button onClick={handleAcompanharProjetosClick} className={styles.criarButton}>
             Acompanhar projetos
           </button>
         </>
       )}
 
-      {/* Formulário para criação de projeto */}
       {mostrarFormulario && (
         <form onSubmit={handleSubmit} className={styles.form}>
           <label>Nome do Projeto:</label>
@@ -173,24 +154,24 @@ export function Gerenciador() {
         </form>
       )}
 
-      {/* Exibição de projetos para acompanhamento */}
       {mostrarAcompanhar && (
         <div>
-          <h2>Projetos em andamento:</h2>
+          <h2>Todos os Projetos:</h2>
           <ul>
             {projetos.map((projeto) => (
               <li key={projeto.id}>
                 {projeto.nome} - Status: {projeto.status}
-                <button onClick={() => handleEncerrarProjeto(projeto.id)}>
-                  Encerrar Projeto
-                </button>
+                {projeto.status !== "ENCERRADO" && (
+                  <button onClick={() => handleEncerrarProjeto(projeto.id)}>
+                    Encerrar Projeto
+                  </button>
+                )}
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {/* Botão Voltar */}
       {mostrarBotaoVoltar && (
         <button onClick={handleVoltar} className={styles.voltarButton}>
           Voltar
